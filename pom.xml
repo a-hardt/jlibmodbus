@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.intelligt.modbus</groupId>
     <artifactId>jlibmodbus</artifactId>
-    <version>1.2.9.7</version>
+    <version>1.2.9.7.kugel</version>
     <name>JLibModbus</name>
     <description>Implementation of the Modbus protocol in Java language</description>
     <packaging>jar</packaging>
@@ -78,17 +78,18 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
+
+<!--            <plugin>-->
+<!--                <groupId>org.sonatype.plugins</groupId>-->
+<!--                <artifactId>nexus-staging-maven-plugin</artifactId>-->
+<!--                <version>1.6.7</version>-->
+<!--                <extensions>true</extensions>-->
+<!--                <configuration>-->
+<!--                    <serverId>ossrh</serverId>-->
+<!--                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+<!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -142,6 +143,13 @@
                 </executions>
             </plugin>-->
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.3.3</version>
+            </extension>
+        </extensions>
     </build>
     <licenses>
         <license>
@@ -163,13 +171,13 @@
         <url>https://github.com/kochedykov/jlibmodbus/tree/master</url>
     </scm>
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>kugel-ftp</id>
+            <url>ftp://ftp.kugel.com.br/public_html/maven/</url>
         </repository>
+        <snapshotRepository>
+            <id>kugel-ftp</id>
+            <url>ftp://ftp.kugel.com.br/public_html/maven/</url>
+        </snapshotRepository>
     </distributionManagement>
 </project>

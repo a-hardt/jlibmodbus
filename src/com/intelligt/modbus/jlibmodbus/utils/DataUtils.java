@@ -45,7 +45,6 @@ public class DataUtils {
     static public String toAscii(byte[] bytes, int offset, int length) {
         StringBuilder sb = new StringBuilder();
         int tail = offset + length;
-
         for (int i = offset; i < tail; i++) {
             sb.append(toHexString(bytes[i]));
         }
@@ -74,6 +73,9 @@ public class DataUtils {
     }
 
     static public int[] BeToIntArray(byte[] bytes) {
+//        int[] dst = new int[bytes.length / 2];
+//        for (int i = 0, j = 0; i < dst.length; i++, j += 2)
+//            dst[i] = ((bytes[j] & 0xff) << 8) | (bytes[j + 1] & 0xff);
         int[] dst = new int[bytes.length / 4];
         int i = 0;
         for (int j = 0; i < dst.length; j += 4) {
@@ -93,7 +95,18 @@ public class DataUtils {
         return dst;
     }
 
-    static public byte[] toByteArray(int[] i16) {
+    static public byte[] toByteArray(int[] i32) {
+        byte[] dst = new byte[i32.length * 4];
+        for (int i = 0, j = 0; i < i32.length; i++, j += 4) {
+            dst[j] = (byte) (0xff & (i32[i] >> 24));
+            dst[j + 1] = (byte) (0xff & (i32[i] >> 16));
+            dst[j + 2] = (byte) (0xff & (i32[i] >> 8));
+            dst[j + 3] = (byte) (0xff & i32[i]);
+        }
+        return dst;
+    }
+
+    static public byte[] toByteArray16(int[] i16) {
         byte[] dst = new byte[i16.length * 2];
         for (int i = 0, j = 0; i < i16.length; i++, j += 2) {
             dst[j] = (byte) ((i16[i] >> 8) & 0xff);

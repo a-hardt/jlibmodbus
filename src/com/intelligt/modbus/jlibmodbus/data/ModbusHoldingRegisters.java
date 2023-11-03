@@ -114,15 +114,18 @@ public class ModbusHoldingRegisters extends ModbusValues<Integer> {
     }
 
     public int getInt16At(int offset) throws IllegalDataAddressException {
-        return get(offset);
+//        return get(offset);
+        return ((get(offset) & 0xff) << 8) | (get(offset + 1) & 0xff);
     }
 
     public int getInt32At(int offset) throws IllegalDataAddressException {
-        return (getInt16At(offset) & 0xffff) | ((getInt16At(offset + 1) & 0xffff) << 16);
+//        return (getInt16At(offset) & 0xffff) | ((getInt16At(offset + 1) & 0xffff) << 16);
+        return ((getInt16At(offset) & 0xffff) << 16) | (getInt16At(offset + 2) & 0xffff);
     }
 
     public long getInt64At(int offset) throws IllegalDataAddressException {
-        return (getInt32At(offset) & 0xffffffffL) | ((getInt32At(offset + 2) & 0xffffffffL) << 32);
+//        return (getInt32At(offset) & 0xffffffffL) | ((getInt32At(offset + 2) & 0xffffffffL) << 32);
+        return ((getInt32At(offset) & 0xffffffffL) << 32)| (getInt32At(offset + 4) & 0xffffffffL);
     }
 
     public float getFloat48BigEndian() {
@@ -135,12 +138,20 @@ public class ModbusHoldingRegisters extends ModbusValues<Integer> {
                 + (registers[2] * Math.pow(2, 32)));
     }
 
+    public float getFloat16At(int offset) throws IllegalDataAddressException {
+        return Float.intBitsToFloat(getInt16At(offset));
+    }
+
     public float getFloat32At(int offset) throws IllegalDataAddressException {
         return Float.intBitsToFloat(getInt32At(offset));
     }
 
     public double getFloat64At(int offset) throws IllegalDataAddressException {
         return Double.longBitsToDouble(getInt64At(offset));
+    }
+
+    public double getFloat64AtKugel(int offset) throws IllegalDataAddressException {
+        return Double.longBitsToDouble(getInt32At(offset));
     }
 
     public int[] getRegisters() {

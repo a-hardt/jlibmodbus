@@ -61,6 +61,13 @@ public class ReadHoldingRegistersResponse extends AbstractReadResponse {
         return mhr;
     }
 
+    synchronized final public ModbusHoldingRegisters getHoldingRegistersLe() {
+        ModbusHoldingRegisters mhr = new ModbusHoldingRegisters();
+        mhr.setBytesLe(buffer);
+        return mhr;
+    }
+
+
     synchronized final public void setBuffer(int[] registers) throws ModbusNumberException {
         this.buffer = DataUtils.toByteArray(registers);
         setByteCount(this.buffer.length);
